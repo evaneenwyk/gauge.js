@@ -622,7 +622,7 @@
       for (j = 0, len = ref.length; j < len; j++) {
         value = ref[j];
         if (value.label !== void 0) {
-          if ((!this.options.limitMin || value >= this.minValue) && (!this.options.limitMax || value <= this.maxValue)) {
+          if ((!this.options.limitMin || value.label >= this.minValue) && (!this.options.limitMax || value.label <= this.maxValue)) {
             font = value.font || staticLabels.font;
             match = font.match(re)[0];
             rest = font.slice(match.length);
@@ -630,7 +630,13 @@
             this.ctx.font = fontsize + rest;
             rotationAngle = this.getAngle(value.label) - 3 * Math.PI / 2;
             this.ctx.rotate(rotationAngle);
-            this.ctx.fillText(formatNumber(value.label, staticLabels.fractionDigits), 0, -radius - this.lineWidth / 2);
+            
+            if (value.text != undefined) {
+              this.ctx.fillText(value.text, 0, -radius - this.lineWidth / 2);
+            }
+            else {
+              this.ctx.fillText(formatNumber(value.label, staticLabels.fractionDigits), 0, -radius - this.lineWidth / 2);
+            }
             this.ctx.rotate(-rotationAngle);
           }
         } else {
